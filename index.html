@@ -46,6 +46,83 @@
             position: relative;
         }
 
+        /* ==========================================
+           SKELETON SCREEN & SHIMMER UI STYLES
+           ========================================== */
+        @keyframes shimmerWave {
+            0% { background-position: -200% 0; }
+            100% { background-position: 200% 0; }
+        }
+
+        .sk-shimmer {
+            background: linear-gradient(
+                90deg,
+                rgba(255, 255, 255, 0.05) 25%,
+                rgba(255, 255, 255, 0.16) 50%,
+                rgba(255, 255, 255, 0.05) 75%
+            );
+            background-size: 200% 100%;
+            animation: shimmerWave 1.5s infinite linear;
+            border-radius: 10px;
+        }
+
+        /* Skeleton Wrapper */
+        #skeleton-loader {
+            width: 100%;
+            transition: opacity 0.35s ease;
+        }
+
+        #skeleton-loader.hidden {
+            display: none;
+        }
+
+        .sk-card {
+            background: var(--liquid-glass);
+            backdrop-filter: blur(24px);
+            -webkit-backdrop-filter: blur(24px);
+            border: 1px solid var(--liquid-border);
+            border-radius: 24px;
+            padding: 24px;
+            margin-bottom: 20px;
+        }
+
+        .sk-pill { width: 140px; height: 24px; border-radius: 50px; margin-bottom: 16px; }
+        .sk-title { width: 82%; height: 30px; margin-bottom: 12px; border-radius: 8px; }
+        .sk-text-1 { width: 96%; height: 15px; margin-bottom: 8px; border-radius: 6px; }
+        .sk-text-2 { width: 70%; height: 15px; margin-bottom: 22px; border-radius: 6px; }
+        .sk-btn-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+        .sk-btn { height: 48px; border-radius: 16px; }
+        .sk-heading { width: 170px; height: 22px; margin: 26px 0 14px 4px; border-radius: 6px; }
+        .sk-icon-box { width: 42px; height: 42px; border-radius: 13px; margin-bottom: 12px; }
+
+        /* Image Shimmer Wrapper (For Real Images while loading) */
+        .img-skeleton {
+            background: linear-gradient(
+                90deg,
+                rgba(255, 255, 255, 0.05) 25%,
+                rgba(255, 255, 255, 0.15) 50%,
+                rgba(255, 255, 255, 0.05) 75%
+            );
+            background-size: 200% 100%;
+            animation: shimmerWave 1.5s infinite linear;
+            opacity: 0.85;
+            transition: opacity 0.4s ease;
+        }
+
+        .img-loaded {
+            background: none !important;
+            animation: none !important;
+            opacity: 1;
+        }
+
+        /* Hide real content while skeleton is active */
+        #real-content.loading-state {
+            display: none;
+        }
+
+        /* ==========================================
+           ORIGINAL DESIGN STYLES
+           ========================================== */
         .liquid-bg {
             position: fixed;
             inset: 0;
@@ -545,6 +622,7 @@
 
         .screenshot {
             height: 275px;
+            min-width: 145px;
             border-radius: 18px;
             object-fit: cover;
             scroll-snap-align: start;
@@ -552,7 +630,7 @@
             box-shadow: 0 8px 20px rgba(0, 0, 0, 0.35);
             cursor: pointer;
             transition: transform 0.2s ease;
-            background: #121521;
+            background-color: #121521;
         }
 
         .screenshot:active {
@@ -953,6 +1031,7 @@
             }
             .screenshot {
                 height: 340px;
+                min-width: 180px;
             }
         }
 
@@ -975,7 +1054,7 @@
         <div class="header-inner">
             <div class="brand-row">
                 <div class="brand-title">
-                    <img src="https://huggingface.co/datasets/hashimganaie027/Unique_Army/resolve/main/file_0000000043f082098c6474ec9255818b.png" alt="Unique Army Logo" class="brand-mini-logo">
+                    <img src="https://huggingface.co/datasets/hashimganaie027/Unique_Army/resolve/main/file_0000000043f082098c6474ec9255818b.png" alt="Unique Army Logo" class="brand-mini-logo img-skeleton" onload="this.classList.add('img-loaded')">
                     <span>Unique Army</span>
                 </div>
                 <div class="server-pill">
@@ -995,7 +1074,67 @@
 
     <main class="container">
 
-        <div>
+        <!-- ==========================================
+             1. SKELETON SCREEN PLACEHOLDER UI
+             ========================================== -->
+        <div id="skeleton-loader">
+            <!-- Hero Skeleton Card -->
+            <div class="sk-card">
+                <div class="sk-shimmer sk-pill"></div>
+                <div class="sk-shimmer sk-title"></div>
+                <div class="sk-shimmer sk-text-1"></div>
+                <div class="sk-shimmer sk-text-2"></div>
+                <div class="sk-btn-row">
+                    <div class="sk-shimmer sk-btn"></div>
+                    <div class="sk-shimmer sk-btn"></div>
+                </div>
+            </div>
+
+            <!-- Section Heading Skeleton -->
+            <div class="sk-shimmer sk-heading"></div>
+
+            <!-- 4 Feature Grid Skeleton Boxes -->
+            <div class="feature-grid">
+                <div class="feature-item">
+                    <div class="sk-shimmer sk-icon-box"></div>
+                    <div class="sk-shimmer" style="width: 65%; height: 18px; margin-bottom: 10px;"></div>
+                    <div class="sk-shimmer" style="width: 95%; height: 13px; margin-bottom: 6px;"></div>
+                    <div class="sk-shimmer" style="width: 75%; height: 13px;"></div>
+                </div>
+                <div class="feature-item">
+                    <div class="sk-shimmer sk-icon-box"></div>
+                    <div class="sk-shimmer" style="width: 65%; height: 18px; margin-bottom: 10px;"></div>
+                    <div class="sk-shimmer" style="width: 95%; height: 13px; margin-bottom: 6px;"></div>
+                    <div class="sk-shimmer" style="width: 75%; height: 13px;"></div>
+                </div>
+                <div class="feature-item">
+                    <div class="sk-shimmer sk-icon-box"></div>
+                    <div class="sk-shimmer" style="width: 65%; height: 18px; margin-bottom: 10px;"></div>
+                    <div class="sk-shimmer" style="width: 95%; height: 13px; margin-bottom: 6px;"></div>
+                    <div class="sk-shimmer" style="width: 75%; height: 13px;"></div>
+                </div>
+                <div class="feature-item">
+                    <div class="sk-shimmer sk-icon-box"></div>
+                    <div class="sk-shimmer" style="width: 65%; height: 18px; margin-bottom: 10px;"></div>
+                    <div class="sk-shimmer" style="width: 95%; height: 13px; margin-bottom: 6px;"></div>
+                    <div class="sk-shimmer" style="width: 75%; height: 13px;"></div>
+                </div>
+            </div>
+
+            <!-- Bottom Profile Skeleton Card -->
+            <div class="sk-card" style="display: flex; justify-content: space-between; align-items: center;">
+                <div style="width: 60%;">
+                    <div class="sk-shimmer" style="width: 140px; height: 18px; margin-bottom: 8px;"></div>
+                    <div class="sk-shimmer" style="width: 200px; height: 13px;"></div>
+                </div>
+                <div class="sk-shimmer" style="width: 110px; height: 28px; border-radius: 50px;"></div>
+            </div>
+        </div>
+
+        <!-- ==========================================
+             2. REAL WEBSITE CONTENT
+             ========================================== -->
+        <div id="real-content" class="loading-state">
             <section id="tab-home" class="tab-section active">
                 
                 <div class="glass-card hero-banner anim-item d-1">
@@ -1065,7 +1204,7 @@
             <section id="tab-download" class="tab-section">
 
                 <div class="glass-card app-header-card anim-item d-1">
-                    <img src="https://huggingface.co/datasets/hashimganaie027/Unique_Army/resolve/main/20260519_174024.png" alt="Unique Tool Icon" class="app-icon">
+                    <img src="https://huggingface.co/datasets/hashimganaie027/Unique_Army/resolve/main/20260519_174024.png" alt="Unique Tool Icon" class="app-icon img-skeleton" onload="this.classList.add('img-loaded')">
                     <div>
                         <h2 class="app-name">Unique Tool</h2>
                         <div class="app-dev">Unique Gamer</div>
@@ -1103,13 +1242,13 @@
                         <span class="section-sub">Tap to zoom • Swipe →</span>
                     </div>
                     <div class="gallery">
-                        <img src="https://huggingface.co/datasets/hashimganaie027/Unique_Army/resolve/main/Screenshot_20261025-174423.jpg" alt="Preview 1" class="screenshot" onclick="zoomImage(this.src)">
-                        <img src="https://huggingface.co/datasets/hashimganaie027/Unique_Army/resolve/main/Screenshot_20261024-211728.jpg" alt="Preview 2" class="screenshot" onclick="zoomImage(this.src)">
-                        <img src="https://huggingface.co/datasets/hashimganaie027/Unique_Army/resolve/main/Screenshot_20261024-211811.jpg" alt="Preview 3" class="screenshot" onclick="zoomImage(this.src)">
-                        <img src="https://huggingface.co/datasets/hashimganaie027/Unique_Army/resolve/main/Screenshot_20260922-232406.jpg" alt="Preview 4" class="screenshot" onclick="zoomImage(this.src)">
-                        <img src="https://huggingface.co/datasets/hashimganaie027/Unique_Army/resolve/main/Screenshot_20261024-211950.jpg" alt="Preview 5" class="screenshot" onclick="zoomImage(this.src)">
-                        <img src="https://huggingface.co/datasets/hashimganaie027/Unique_Army/resolve/main/Screenshot_20261025-174616.jpg" alt="Preview 6" class="screenshot" onclick="zoomImage(this.src)">
-                        <img src="https://huggingface.co/datasets/hashimganaie027/Unique_Army/resolve/main/Screenshot_20261025-174649.jpg" alt="Preview 7" class="screenshot" onclick="zoomImage(this.src)">
+                        <img src="https://huggingface.co/datasets/hashimganaie027/Unique_Army/resolve/main/Screenshot_20261025-174423.jpg" alt="Preview 1" class="screenshot img-skeleton" onload="this.classList.add('img-loaded')" onclick="zoomImage(this.src)">
+                        <img src="https://huggingface.co/datasets/hashimganaie027/Unique_Army/resolve/main/Screenshot_20261024-211728.jpg" alt="Preview 2" class="screenshot img-skeleton" onload="this.classList.add('img-loaded')" onclick="zoomImage(this.src)">
+                        <img src="https://huggingface.co/datasets/hashimganaie027/Unique_Army/resolve/main/Screenshot_20261024-211811.jpg" alt="Preview 3" class="screenshot img-skeleton" onload="this.classList.add('img-loaded')" onclick="zoomImage(this.src)">
+                        <img src="https://huggingface.co/datasets/hashimganaie027/Unique_Army/resolve/main/Screenshot_20260922-232406.jpg" alt="Preview 4" class="screenshot img-skeleton" onload="this.classList.add('img-loaded')" onclick="zoomImage(this.src)">
+                        <img src="https://huggingface.co/datasets/hashimganaie027/Unique_Army/resolve/main/Screenshot_20261024-211950.jpg" alt="Preview 5" class="screenshot img-skeleton" onload="this.classList.add('img-loaded')" onclick="zoomImage(this.src)">
+                        <img src="https://huggingface.co/datasets/hashimganaie027/Unique_Army/resolve/main/Screenshot_20261025-174616.jpg" alt="Preview 6" class="screenshot img-skeleton" onload="this.classList.add('img-loaded')" onclick="zoomImage(this.src)">
+                        <img src="https://huggingface.co/datasets/hashimganaie027/Unique_Army/resolve/main/Screenshot_20261025-174649.jpg" alt="Preview 7" class="screenshot img-skeleton" onload="this.classList.add('img-loaded')" onclick="zoomImage(this.src)">
                     </div>
                 </div>
 
@@ -1417,6 +1556,36 @@ Developed and Managed by: @GANAIE HASHIM
     </div>
 
     <script>
+        const skeletonLoader = document.getElementById('skeleton-loader');
+        const realContent = document.getElementById('real-content');
+
+        // Function to show Skeleton first, then reveal content smoothly
+        function triggerSkeletonReveal(duration = 900) {
+            skeletonLoader.classList.remove('hidden');
+            realContent.classList.add('loading-state');
+
+            setTimeout(() => {
+                skeletonLoader.classList.add('hidden');
+                realContent.classList.remove('loading-state');
+
+                // Replay iOS spring animation on active tab items
+                const activeSec = document.querySelector('.tab-section.active');
+                if (activeSec) {
+                    const animItems = activeSec.querySelectorAll('.anim-item');
+                    animItems.forEach(item => {
+                        item.style.animation = 'none';
+                        item.offsetHeight;
+                        item.style.animation = '';
+                    });
+                }
+            }, duration);
+        }
+
+        // Initial Page Load Skeleton
+        window.addEventListener('DOMContentLoaded', () => {
+            triggerSkeletonReveal(1100);
+        });
+
         function switchTab(tabName, btnElement) {
             const buttons = document.querySelectorAll('.nav-btn');
             buttons.forEach(btn => btn.classList.remove('active'));
@@ -1428,16 +1597,12 @@ Developed and Managed by: @GANAIE HASHIM
             const targetSection = document.getElementById('tab-' + tabName);
             if (targetSection) {
                 targetSection.classList.add('active');
-
-                const animItems = targetSection.querySelectorAll('.anim-item');
-                animItems.forEach(item => {
-                    item.style.animation = 'none';
-                    item.offsetHeight;
-                    item.style.animation = '';
-                });
             }
 
             window.scrollTo({ top: 0, behavior: 'smooth' });
+
+            // Brief skeleton shimmer when switching tabs (450ms)
+            triggerSkeletonReveal(450);
         }
 
         function triggerTabClick(tabName) {
